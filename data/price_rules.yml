@@ -1,0 +1,13 @@
+GR1:
+  type: :bogof
+  size: 2
+
+SR1:
+  type: :absolute
+  size: 3
+  amount: 0.5
+
+CF1:
+  type: :percent
+  size: 3
+  amount: 33.33

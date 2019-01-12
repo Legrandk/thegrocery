@@ -1,8 +1,9 @@
-require '../data/products'
+require '../data/products' # toDO: Yamilizar esto
+require '../lib/pricing_rules'
 
 class Checkout
-  def initialize( price_rules)
-    @@price_rules = price_rules.clone
+  def initialize( pricing_rules)
+    @@pricing_rules = pricing_rules
     @@items = []
   end
 
@@ -17,32 +18,11 @@ class Checkout
 
     total = 0
     items_grouped.each do |prod_id, amount|
-      discount = calculate_discount_for_item( prod_id, amount)
+      discount = @@pricing_rules.price_discount_for( prod_id, PRODUCTS[prod_id][:price], amount)
 
       total += ((amount * PRODUCTS[prod_id][:price]) - discount).round(2)
     end
 
     total
-  end
-
-
-  private
-
-  def calculate_discount_for_item( prod_id, num_items)
-    discount = 0
-    price_rule = @@price_rules[prod_id]
-
-    if :bogof == price_rule[:type]
-      discount = (num_items / price_rule[:size]) * PRODUCTS[prod_id][:price]
-    
-    elsif :regular == price_rule[:type]
-      if num_items >= price_rule[:size]
-        unit_discount = :percent == price_rule[:base] ? PRODUCTS[prod_id][:price] : 1
-
-        discount = (unit_discount * price_rule[:amount]) * num_items
-      end
-    end
-
-    discount.round(2)
   end
 end
