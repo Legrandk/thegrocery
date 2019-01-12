@@ -1,9 +1,14 @@
-require '../data/products' # toDO: Yamilizar esto
-require '../lib/pricing_rules'
+require 'lib/pricing_rules'
+require 'lib/utils'
 
 class Checkout
+  include Utils
+
   def initialize( pricing_rules)
+    @@products = symbolize_keys( YAML.load_file('data/products.yml'))
+
     @@pricing_rules = pricing_rules
+
     @@items = []
   end
 
@@ -18,9 +23,9 @@ class Checkout
 
     total = 0
     items_grouped.each do |prod_id, amount|
-      discount = @@pricing_rules.price_discount_for( prod_id, PRODUCTS[prod_id][:price], amount)
+      discount = @@pricing_rules.price_discount_for( prod_id, @@products[prod_id][:price], amount)
 
-      total += ((amount * PRODUCTS[prod_id][:price]) - discount).round(2)
+      total += ((amount * @@products[prod_id][:price]) - discount).round(2)
     end
 
     total

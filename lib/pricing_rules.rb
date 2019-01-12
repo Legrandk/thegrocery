@@ -1,11 +1,14 @@
 require 'singleton'
 require 'yaml'
 
+require 'lib/utils'
+
 class PricingRules
   include Singleton
+  include Utils
 
   def initialize
-    @@rules = symbolize_keys( YAML.load_file('../data/price_rules.yml'))
+    @@rules = symbolize_keys( YAML.load_file('data/price_rules.yml'))
   end
 
   def rule_for( product_id)
@@ -44,15 +47,6 @@ class PricingRules
 
   def get_percent_discount_for(unit_price, num_items, amount, min_size)
     min_size <= num_items ? (unit_price * (amount*0.01)) * num_items : 0
-  end
-
-
-  def symbolize_keys( str_hash)
-    symbolized_hash = {}
-
-    str_hash.each { |k, v| symbolized_hash[k.to_sym] = v.is_a?(Hash) ? symbolize_keys(v) : v }
-
-    symbolized_hash
   end
 
 end

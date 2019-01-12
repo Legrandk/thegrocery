@@ -1,4 +1,4 @@
-require '../lib/checkout'
+require 'lib/checkout'
 require 'test/unit'
 
 class CheckoutTest < Test::Unit::TestCase
@@ -13,6 +13,12 @@ class CheckoutTest < Test::Unit::TestCase
 
     assert_equal 1, co.scan( :CF1 )
     assert_equal 2, co.scan( :CF1 )
+  end
+
+  def test_empty_basket_total_price
+    co = Checkout.new( PricingRules.instance)
+
+    assert_equal 0, co.total 
   end
 
   def test_basket1_total_price

@@ -1,4 +1,4 @@
-require '../lib/pricing_rules'
+require 'lib/pricing_rules'
 require 'test/unit'
 
 class PriceRulesTest < Test::Unit::TestCase
