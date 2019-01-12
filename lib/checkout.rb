@@ -21,13 +21,10 @@ class Checkout
     # noTE: Covert [ :SR1, :SR1, :GR1, :SR1] to {:GR1=>1, :SR1=>3}
     items_grouped = @@items.inject( Hash.new(0)) { |h, prod| h[prod] += 1 ; h } 
 
-    total = 0
-    items_grouped.each do |prod_id, amount|
+    items_grouped.reduce(0) do |sum, (prod_id, amount)|
       discount = @@pricing_rules.price_discount_for( prod_id, @@products[prod_id][:price], amount)
 
-      total += ((amount * @@products[prod_id][:price]) - discount).round(2)
+      sum + ((amount * @@products[prod_id][:price]) - discount).round(2)
     end
-
-    total
   end
 end
