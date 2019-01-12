@@ -25,6 +25,6 @@ class PriceRulesTest < Test::Unit::TestCase
     rules = PRICE_RULES[:CF1]
     assert_equal rules[:type], :regular
     assert_equal rules[:size], 3
-    assert_equal rules[:amount], 2/3.0
+    assert_equal rules[:amount], 1/3.0
   end
 end

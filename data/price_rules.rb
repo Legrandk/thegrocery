@@ -14,7 +14,7 @@ PRICE_RULES = {
   :CF1 => {
     :type => :regular,
     :size => 3,
-    :amount => 2/3.0,
+    :amount => 1/3.0,
     :base => :percent
   },
 }
